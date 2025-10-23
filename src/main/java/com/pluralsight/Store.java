@@ -84,11 +84,11 @@ public class Store {
     public static void displayProducts(ArrayList<Product> inventory,
                                        ArrayList<Product> cart,
                                        Scanner scanner) {
-        System.out.println("====================================================");
+        System.out.println("=========================================================");
         for (Product p: inventory) {
             System.out.println(p);
         }
-        System.out.println("====================================================");
+        System.out.println("=========================================================");
         Product product = null;
 
         while (product == null) {
@@ -111,11 +111,13 @@ public class Store {
             System.out.println("\nThere are currently no items in your cart!");
             return;
         }
+        System.out.println("Showing items in cart: ");
+        System.out.println("\n=========================================================");
         for (Product p: cart) {
             System.out.println(p);
         }
         promptForChoice("\nC to checkout, X to return to main menu: ", scanner);
-
+        System.out.println("=========================================================");
         double total = 0;
         for (Product p: cart) {
             total += p.getPrice();
@@ -136,8 +138,20 @@ public class Store {
         // TODO: implement steps listed above
         System.out.println("\nYour total is $" + totalAmount);
         promptForChoice("\nC to confirm your payment, X to return to main menu: ", scanner);
+
+        System.out.println("\n=========================================================");
+        System.out.println("Thank you for your purchase!\n");
+        for (Product p: cart) {
+            System.out.println(p);
+        }
+        System.out.println("\nTotal: $" + totalAmount);
+        System.out.println("=========================================================");
+        cart.clear();
     }
 
+    /**
+    Continuously prompts user for a choice
+     */
     public static void promptForChoice(String message, Scanner scanner) {
         String choice = "";
 
