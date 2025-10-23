@@ -6,11 +6,17 @@ public class Product {
     double price;
     String department;
 
-    public Product(String department, double price, String productName, String sku) {
-        this.department = department;
-        this.price = price;
-        this.productName = productName;
+    public Product(String sku, String productName, double price, String department) {
         this.sku = sku;
+        this.productName = productName;
+        this.price = price;
+        this.department = department;
+
+    }
+
+    @Override
+    public String toString() {
+        return (sku + "|" + productName + "|" + price + "|" + department);
     }
 
     public String getDepartment() {

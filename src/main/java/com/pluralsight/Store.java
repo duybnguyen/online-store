@@ -1,6 +1,7 @@
 
 package com.pluralsight;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -58,6 +59,28 @@ public class Store {
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
         // TODO: read each line, split on "|",
         //       create a Product object, and add it to the inventory list
+        try {
+            File file = new File(fileName);
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] productParts = line.split("\\|");
+
+                if (productParts.length != 4) {
+                    System.out.println("Skipping malformed product line: " + line);
+                    continue;
+                }
+                double price = Double.parseDouble(productParts[2]);
+
+                Product product = new Product(productParts[0], productParts[1], price, productParts[3]);
+
+                inventory.add(product);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
