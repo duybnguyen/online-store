@@ -97,11 +97,17 @@ public class Store {
             System.out.println(p);
         }
         System.out.println("====================================================");
-        System.out.println("\nEnter a SKU to add item to cart (X to return to main menu): ");
-        String sku = scanner.nextLine();
-        if (sku.equalsIgnoreCase("X")) return;
-        Product product = findProductById(sku, inventory);
+        Product product = null;
 
+        while (product == null) {
+            System.out.println("\nEnter a SKU to add item to cart (X to return to main menu): ");
+            String sku = scanner.nextLine();
+            if (sku.equalsIgnoreCase("X")) return;
+            product = findProductById(sku, inventory);
+        }
+
+        cart.add(product);
+        System.out.print("Product added to cart!");
     }
 
     /**
@@ -141,6 +147,7 @@ public class Store {
                 return p;
             }
         }
+        System.out.println("\nNo item found with SKU: " + id + "\n");
         return null;
     }
 }
