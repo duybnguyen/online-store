@@ -97,9 +97,11 @@ public class Store {
             System.out.println(p);
         }
         System.out.println("====================================================");
-        System.out.println("\nEnter a SKU to add item to cart: ");
+        System.out.println("\nEnter a SKU to add item to cart (X to return to main menu): ");
         String sku = scanner.nextLine();
+        if (sku.equalsIgnoreCase("X")) return;
         Product product = findProductById(sku, inventory);
+
     }
 
     /**
@@ -134,6 +136,11 @@ public class Store {
      */
     public static Product findProductById(String id, ArrayList<Product> inventory) {
         // TODO: loop over the list and compare ids
+        for (Product p: inventory) {
+            if (p.getSku().equalsIgnoreCase(id)) {
+                return p;
+            }
+        }
         return null;
     }
 }
