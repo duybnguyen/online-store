@@ -83,11 +83,11 @@ public class Store {
     public static void displayProducts(ArrayList<Product> inventory,
                                        Map<Product, Integer> cart,
                                        Scanner scanner) {
-        System.out.println("=========================================================");
+        System.out.println("==========================================================");
         for (Product p: inventory) {
             System.out.println(p);
         }
-        System.out.println("=========================================================");
+        System.out.println("==========================================================");
         Product product = null;
 
         while (product == null) {
@@ -111,12 +111,12 @@ public class Store {
             return;
         }
         System.out.println("\nShowing items in cart: ");
-        System.out.println("=========================================================");
+        System.out.println("==========================================================");
         cart.forEach((product, count) -> {
             System.out.println(count + "|" + product);
         });
         promptForChoice("\nC to checkout, X to return to main menu: ", scanner);
-        System.out.println("=========================================================");
+        System.out.println("==========================================================");
         double total = 0;
 
         for (Map.Entry<Product, Integer> entry : cart.entrySet()) {
@@ -137,18 +137,41 @@ public class Store {
     public static void checkOut(Map<Product, Integer> cart,
                                 double totalAmount,
                                 Scanner scanner) {
-        // TODO: implement steps listed above
         System.out.printf("\nTotal: $%.2f\n", totalAmount);
         promptForChoice("\nC to confirm your payment, X to return to main menu: ", scanner);
 
-        System.out.println("\n=========================================================");
-        System.out.println("Thank you for your purchase!\n");
+        System.out.println("\n============== Thank you for your purchase! ==============");
         cart.forEach((product, count) -> {
             System.out.println(count + "|" + product);
         });
         System.out.printf("\nTotal: $%.2f\n", totalAmount);
-        System.out.println("=========================================================");
+        System.out.println("==========================================================");
+        createReceiptFile(cart, totalAmount);
         cart.clear();
+    }
+
+    public static void createReceiptFile(Map<Product, Integer> cart, double totalAmount) {
+        try {
+            File receiptsFolder = new File("receipts");
+            String timestamp = new java.text.SimpleDateFormat("yyyyMMddHHmm").format(new java.util.Date());
+            File receiptFile = new File(receiptsFolder, timestamp + ".txt");
+
+            FileWriter fileWriter = new FileWriter(receiptFile, true);
+
+            fileWriter.write("========================================\n");
+            fileWriter.write("Thank you for your purchase!\n\n");
+            for (Map.Entry<Product, Integer> entry : cart.entrySet()) {
+                Product product = entry.getKey();
+                int count = entry.getValue();
+                fileWriter.write(count + "|" + product + "\n");
+            }
+            fileWriter.write(String.format("\nTotal: $%.2f%n", totalAmount));
+            fileWriter.write("========================================");
+
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

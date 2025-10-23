@@ -32,4 +32,11 @@ Follow these steps to get your application running within IntelliJ IDEA:
 <img src="../../workshops/OnlineStore/README-images/showCart.PNG" alt="payment" width="400">
 <img src="../../workshops/OnlineStore/README-images/checkout.PNG" alt="deposit" width="400">
 
+## Interesting Piece of Code
+Originally, the cart was an ArrayList<Product>, which made tracking quantities awkward, I had to loop through the list to count duplicates. Switching to a HashMap<Product, Integer> simplified everything: the key is the product, and the value is its count.
+
+Adding an item is now just: cart.put(product, cart.getOrDefault(product, 0) + 1);
+
+
+Displaying items and calculating totals is also easier, since you can directly access both the product and its count without extra loops.
 
