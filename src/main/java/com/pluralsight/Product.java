@@ -16,7 +16,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return (sku + "|" + productName + "|" + price + "|" + department);
+        return (sku + "|" + productName + "|$" + price + "|" + department);
     }
 
     public String getDepartment() {

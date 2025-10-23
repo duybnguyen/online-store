@@ -100,14 +100,14 @@ public class Store {
         Product product = null;
 
         while (product == null) {
-            System.out.println("\nEnter a SKU to add item to cart (X to return to main menu): ");
+            System.out.print("\nEnter a SKU to add item to cart (X to return to main menu): ");
             String sku = scanner.nextLine();
             if (sku.equalsIgnoreCase("X")) return;
             product = findProductById(sku, inventory);
         }
 
         cart.add(product);
-        System.out.print("Product added to cart!");
+        System.out.println("\nProduct added to cart!");
     }
 
     /**
@@ -120,6 +120,28 @@ public class Store {
         //   • compute the total cost
         //   • ask the user whether to check out (C) or return (X)
         //   • if C, call checkOut(cart, totalAmount, scanner)
+        if (cart.isEmpty()) {
+            System.out.println("\nThere are currently no items in your cart!");
+            return;
+        }
+        for (Product p: cart) {
+            System.out.println(p);
+        }
+        String choice = "";
+
+        while (!choice.equalsIgnoreCase("C") && !choice.equalsIgnoreCase("X")) {
+            System.out.print("\nC to checkout, X to return to main menu: ");
+            choice = scanner.nextLine();
+            if (!choice.equalsIgnoreCase("C") && !choice.equalsIgnoreCase("X")) {
+                System.out.println("\nInvalid choice!");
+            }
+        }
+
+        double total = 0;
+        for (Product p: cart) {
+            total += p.getPrice();
+        }
+        checkOut(cart, total, scanner);
     }
 
     /**
