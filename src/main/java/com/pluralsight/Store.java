@@ -92,6 +92,14 @@ public class Store {
                                        Scanner scanner) {
         // TODO: show each product (id, name, price),
         //       prompt for an id, find that product, add to cart
+        System.out.println("====================================================");
+        for (Product p: inventory) {
+            System.out.println(p);
+        }
+        System.out.println("====================================================");
+        System.out.println("\nEnter a SKU to add item to cart: ");
+        String sku = scanner.nextLine();
+        Product product = findProductById(sku, inventory);
     }
 
     /**
