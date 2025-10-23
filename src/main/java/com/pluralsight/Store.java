@@ -2,8 +2,7 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Store {
 
@@ -11,7 +10,7 @@ public class Store {
 
         // Create lists for inventory and the shopping cart
         ArrayList<Product> inventory = new ArrayList<>();
-        ArrayList<Product> cart = new ArrayList<>();
+        Map<Product, Integer> cart = new HashMap<>();
 
         // Load inventory from the data file (pipe-delimited: id|name|price)
         loadInventory("products.csv", inventory);
@@ -82,7 +81,7 @@ public class Store {
      * Typing X returns to the main menu.
      */
     public static void displayProducts(ArrayList<Product> inventory,
-                                       ArrayList<Product> cart,
+                                       Map<Product, Integer> cart,
                                        Scanner scanner) {
         System.out.println("=========================================================");
         for (Product p: inventory) {
@@ -98,7 +97,7 @@ public class Store {
             product = findProductById(sku, inventory);
         }
 
-        cart.add(product);
+        cart.put(product, cart.getOrDefault(product, 0) + 1);
         System.out.println("\nProduct added to cart!");
     }
 
@@ -106,21 +105,24 @@ public class Store {
      * Shows the contents of the cart, calculates the total,
      * and offers the option to check out.
      */
-    public static void displayCart(ArrayList<Product> cart, Scanner scanner) {
+    public static void displayCart(Map<Product, Integer> cart, Scanner scanner) {
         if (cart.isEmpty()) {
             System.out.println("\nThere are currently no items in your cart!");
             return;
         }
-        System.out.println("Showing items in cart: ");
-        System.out.println("\n=========================================================");
-        for (Product p: cart) {
-            System.out.println(p);
-        }
+        System.out.println("\nShowing items in cart: ");
+        System.out.println("=========================================================");
+        cart.forEach((product, count) -> {
+            System.out.println(count + "|" + product);
+        });
         promptForChoice("\nC to checkout, X to return to main menu: ", scanner);
         System.out.println("=========================================================");
         double total = 0;
-        for (Product p: cart) {
-            total += p.getPrice();
+
+        for (Map.Entry<Product, Integer> entry : cart.entrySet()) {
+            Product product = entry.getKey();
+            int count = entry.getValue();
+            total += product.getPrice() * count;
         }
         checkOut(cart, total, scanner);
     }
@@ -132,19 +134,19 @@ public class Store {
      * 3. Display a simple receipt.
      * 4. Clear the cart.
      */
-    public static void checkOut(ArrayList<Product> cart,
+    public static void checkOut(Map<Product, Integer> cart,
                                 double totalAmount,
                                 Scanner scanner) {
         // TODO: implement steps listed above
-        System.out.println("\nYour total is $" + totalAmount);
+        System.out.printf("\n\nTotal: $%.2f\n", totalAmount);
         promptForChoice("\nC to confirm your payment, X to return to main menu: ", scanner);
 
         System.out.println("\n=========================================================");
         System.out.println("Thank you for your purchase!\n");
-        for (Product p: cart) {
-            System.out.println(p);
-        }
-        System.out.println("\nTotal: $" + totalAmount);
+        cart.forEach((product, count) -> {
+            System.out.println(count + "|" + product);
+        });
+        System.out.printf("\nTotal: $%.2f\n", totalAmount);
         System.out.println("=========================================================");
         cart.clear();
     }
