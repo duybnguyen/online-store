@@ -28,9 +28,9 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Demo
 
-<img src="../../workshops/OnlineStore/README-images/addingProduct.PNG" alt="deposit" width="400">
-<img src="../../workshops/OnlineStore/README-images/showCart.PNG" alt="payment" width="400">
-<img src="../../workshops/OnlineStore/README-images/checkout.PNG" alt="deposit" width="400">
+<img src="README-images/addingProduct.PNG" alt="deposit" width="400">
+<img src="README-images/showCart.PNG" alt="payment" width="400">
+<img src="README-images/checkout.PNG" alt="deposit" width="400">
 
 ## Interesting Piece of Code
 Originally, the cart was an ArrayList<Product>, which made tracking quantities awkward, I had to loop through the list to count duplicates. Switching to a HashMap<Product, Integer> simplified everything: the key is the product, and the value is its count.
