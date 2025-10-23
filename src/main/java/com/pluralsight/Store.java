@@ -138,7 +138,7 @@ public class Store {
                                 double totalAmount,
                                 Scanner scanner) {
         // TODO: implement steps listed above
-        System.out.printf("\n\nTotal: $%.2f\n", totalAmount);
+        System.out.printf("\nTotal: $%.2f\n", totalAmount);
         promptForChoice("\nC to confirm your payment, X to return to main menu: ", scanner);
 
         System.out.println("\n=========================================================");
